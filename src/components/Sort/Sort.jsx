@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-const Sort = () => {
+export const Sort = () => {
   const [openPopup, setOpenPopup] = useState(false);
-  const [selected, setSelected] = useState('популярністю');
+  const [selected, setSelected] = useState(0);
 
   const sortList = ['популярністю', 'ціною', 'алфавітом'];
 
@@ -45,5 +45,3 @@ const Sort = () => {
     </div>
   );
 };
-
-export default Sort;
