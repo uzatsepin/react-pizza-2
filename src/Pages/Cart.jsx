@@ -1,10 +1,6 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export const Cart = () => {
-  const navigate = useNavigate();
-  const backBtn = () => {
-    navigate(-1);
-  };
   return (
     <div className="container container--cart">
       <div className="cart">
