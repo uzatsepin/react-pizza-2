@@ -1,8 +1,8 @@
 import { Route, Routes } from 'react-router-dom';
-import Header from './components/Header/Header';
+import { Header } from './components/Header/Header';
 import { NotFoundBlock } from './components/NotFoundBlock/NotFoundBlock';
 import { Home } from './Pages/Home';
-import {Cart} from './Pages/Cart';
+import { Cart } from './Pages/Cart';
 import './scss/app.scss';
 
 function App() {
@@ -11,7 +11,6 @@ function App() {
     <div className="wrapper">
       <Header/>
       <div className="content">
-        <div className="container">
           <Routes>
             <Route path='/' element={<Home/>}/>
             <Route path='/cart' element={<Cart />}/>
@@ -19,7 +18,6 @@ function App() {
           </Routes>
         </div>
       </div>
-    </div>
   );
 }
 
