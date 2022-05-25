@@ -13,14 +13,16 @@ export const Home = ({ searchValue }) => {
     name: 'популярностю',
     sortProperty: 'rating',
   });
-
+  console.log(searchValue);
   useEffect(() => {
     const sortyBy = sortType.sortProperty.replace('-', '');
     const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc';
     const category = categoryId > 0 ? `category=${categoryId}` : '';
+    const search = searchValue ? `&search=${searchValue}` : '';
+
     setIsLoading(true);
     fetch(
-      `https://628b53477886bbbb37b5ad90.mockapi.io/pizzas?${category}&sortBy=${sortyBy}&order=${order}`,
+      `https://628b53477886bbbb37b5ad90.mockapi.io/pizzas?${category}&sortBy=${sortyBy}&order=${order}${search}`,
     )
       .then((res) => res.json())
       .then((data) => {
@@ -28,16 +30,9 @@ export const Home = ({ searchValue }) => {
         setIsLoading(false);
       });
     window.scrollTo(0, 0);
-  }, [sortType, categoryId]);
+  }, [sortType, categoryId, searchValue]);
 
-  const pizza = pizzas
-    .filter((obj) => {
-      if (obj.title.toLowerCase().includes(searchValue.toLowerCase())) {
-        return true;
-      }
-      return false;
-    })
-    .map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
+  const pizza = pizzas.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
   const skeleton = [...new Array(8)].map((_, index) => <Skeleton key={index} />);
 
   return (
