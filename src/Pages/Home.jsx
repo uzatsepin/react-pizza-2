@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { PizzaBlock } from '../components/PizzaBlock/PizzaBlock';
 import { Sort } from '../components/Sort/Sort';
@@ -26,14 +27,15 @@ export const Home = () => {
     const search = searchValue ? `&search=${searchValue}` : '';
 
     setIsLoading(true);
-    fetch(
-      `https://628b53477886bbbb37b5ad90.mockapi.io/pizzas?page=${currentPage}&limit=4&${category}&sortBy=${sortyBy}&order=${order}${search}`,
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setPizzas(data);
+    axios
+      .get(
+        `https://628b53477886bbbb37b5ad90.mockapi.io/pizzas?page=${currentPage}&limit=4&${category}&sortBy=${sortyBy}&order=${order}${search}`,
+      )
+      .then((res) => {
+        setPizzas(res.data);
         setIsLoading(false);
       });
+
     window.scrollTo(0, 0);
   }, [sortType, categoryId, searchValue, currentPage]);
 
