@@ -13,21 +13,26 @@ import { SearchContext } from '../App';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
 import { sortList } from '../components/Sort/Sort';
+import { useCallback } from 'react';
 
 export const Home = () => {
   const [pizzas, setPizzas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const isSearch = useRef(false);
+  const isMounted = useRef(false);
   const { categoryId, sort, currentPage } = useSelector((state) => state.filter);
   const sortType = sort.sortProperty;
   const navigate = useNavigate();
-  const isMounted = useRef(false);
   const { searchValue } = useContext(SearchContext);
 
   const onChangePage = (number) => {
     dispatch(setCurrentPage(number));
   };
+
+  const onChangeCategory = useCallback((idx) => {
+    dispatch(setCategoryId(idx));
+  }, []);
 
   const fetchPizzas = () => {
     const sortyBy = sortType.replace('-', '');
@@ -89,7 +94,7 @@ export const Home = () => {
   return (
     <div className="container">
       <div className="content__top">
-        <Categories categoryId={categoryId} onClickCategory={(i) => dispatch(setCategoryId(i))} />
+        <Categories categoryId={categoryId} onChangeCategory={onChangeCategory} />
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
