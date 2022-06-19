@@ -1,12 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useContext } from 'react';
+import React from 'react';
 import { useEffect } from 'react';
 import { PizzaBlock } from '../components/PizzaBlock/PizzaBlock';
 import { Sort } from '../components/Sort/Sort';
 import { Skeleton } from '../components/PizzaBlock/Skeleton';
 import { Categories } from '../components/Categories/Categories';
 import { Pagination } from '../components/Pagination/Pagination';
-import { SearchContext } from '../App';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCategoryId, setCurrentPage } from '../redux/slices/filterSlice';
 import { useCallback } from 'react';
@@ -14,9 +13,8 @@ import { fetchPizzas } from '../redux/slices/pizzaSlice';
 
 export const Home = () => {
   const dispatch = useDispatch();
-  const { categoryId, sort, currentPage } = useSelector((state) => state.filter);
+  const { categoryId, sort, currentPage, searchValue } = useSelector((state) => state.filter);
   const { items, status } = useSelector((state) => state.pizza);
-  const { searchValue } = useContext(SearchContext);
 
   const onChangePage = (number) => {
     dispatch(setCurrentPage(number));
