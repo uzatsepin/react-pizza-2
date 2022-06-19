@@ -1,8 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useContext, useRef } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
+import { useEffect } from 'react';
 import { PizzaBlock } from '../components/PizzaBlock/PizzaBlock';
 import { Sort } from '../components/Sort/Sort';
 import { Skeleton } from '../components/PizzaBlock/Skeleton';
@@ -12,12 +10,12 @@ import { SearchContext } from '../App';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCategoryId, setCurrentPage } from '../redux/slices/filterSlice';
 import { useCallback } from 'react';
+import { fetchPizzas } from '../redux/slices/pizzaSlice';
 
 export const Home = () => {
-  const [pizzas, setPizzas] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const { categoryId, sort, currentPage } = useSelector((state) => state.filter);
+  const { items, status } = useSelector((state) => state.pizza);
   const { searchValue } = useContext(SearchContext);
 
   const onChangePage = (number) => {
@@ -28,31 +26,29 @@ export const Home = () => {
     dispatch(setCategoryId(idx));
   }, []);
 
-  const fetchPizzas = () => {
+  const getPizzas = async () => {
     const sortBy = sort.sortProperty.replace('-', '');
     const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
     const category = categoryId > 0 ? `category=${categoryId}` : '';
     const search = searchValue ? `search=${searchValue}` : '';
 
-    setIsLoading(true);
-    axios
-      .get(
-        `https://628b53477886bbbb37b5ad90.mockapi.io/pizzas?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}&${search}`,
-      )
-      .then((res) => {
-        setPizzas(res.data);
-        setIsLoading(false);
-      });
+    dispatch(
+      fetchPizzas({
+        sortBy,
+        order,
+        category,
+        search,
+        currentPage,
+      }),
+    );
   };
 
   // Если был первый рендер, то запрашиваем пиццы
   useEffect(() => {
-    window.scrollTo(0, 0);
-
-    fetchPizzas();
+    getPizzas();
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
-  const pizza = pizzas.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
+  const pizza = items.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
   const skeleton = [...new Array(8)].map((_, index) => <Skeleton key={index} />);
 
   return (
@@ -62,7 +58,15 @@ export const Home = () => {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">{isLoading ? skeleton : pizza}</div>
+      {status === 'error' ? (
+        <div className="cart cart--empty">
+          <h2>Виникла помилка</h2>
+          <p>На жаль, не вдалося завантажити піцци.</p>
+          <p>Спробуйте перезавантажити сторінку.</p>
+        </div>
+      ) : (
+        <div className="content__items">{status === 'loading' ? skeleton : pizza}</div>
+      )}
       <Pagination currentPage={currentPage} onChangePage={onChangePage} />
     </div>
   );
