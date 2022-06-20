@@ -1,33 +1,22 @@
-import Categories from './components/Categories/Categories';
-import Header from './components/Header/Header';
-import PizzaBlock from './components/PizzaBlock/PizzaBlock';
-import Sort from './components/Sort/Sort';
+import { Route, Routes } from 'react-router-dom';
+
+import { NotFoundBlock } from './components/NotFoundBlock/NotFoundBlock';
+import { Home } from './Pages/Home';
+import { Cart } from './Pages/Cart';
 import './scss/app.scss';
+import { FullPizza } from './Pages/FullPizza';
+import { MainLayout } from './Layout/MainLayout';
 
 function App() {
-  return (  
-    <div className="wrapper">
-      <Header/>
-      <div className="content">
-        <div className="container">
-          <div className="content__top">
-            <Categories />
-            <Sort />
-          </div>
-          <h2 className="content__title">Все пиццы</h2>
-          <div className="content__items">
-            <PizzaBlock />
-            <PizzaBlock />
-            <PizzaBlock />
-            <PizzaBlock />
-            <PizzaBlock />
-            <PizzaBlock />
-            <PizzaBlock />
-            <PizzaBlock />
-          </div>
-        </div>
-      </div>
-    </div>
+  return (
+    <Routes>
+      <Route path="/" element={<MainLayout />}>
+        <Route path="" element={<Home />} />
+        <Route path="cart" element={<Cart />} />
+        <Route path="pizza/:id" element={<FullPizza />} />
+        <Route path="*" element={<NotFoundBlock />} />
+      </Route>
+    </Routes>
   );
 }
 
