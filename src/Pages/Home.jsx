@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setCategoryId, setCurrentPage } from '../redux/slices/filterSlice';
 import { useCallback } from 'react';
 import { fetchPizzas } from '../redux/slices/pizzaSlice';
+import { Link } from 'react-router-dom';
 
 export const Home = () => {
   const dispatch = useDispatch();
@@ -46,7 +47,11 @@ export const Home = () => {
     getPizzas();
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
-  const pizza = items.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
+  const pizza = items.map((pizza) => (
+    <Link key={pizza.id} to={`/pizza/${pizza.id}`}>
+      <PizzaBlock {...pizza} />
+    </Link>
+  ));
   const skeleton = [...new Array(8)].map((_, index) => <Skeleton key={index} />);
 
   return (
