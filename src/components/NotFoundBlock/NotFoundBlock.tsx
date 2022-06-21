@@ -1,7 +1,7 @@
 import styles from './NotFoundBlock.module.scss';
 import { useNavigate } from 'react-router-dom';
 
-export const NotFoundBlock = () => {
+export const NotFoundBlock:React.FC = () => {
   const navigate = useNavigate();
 
   const backBtn = () => {

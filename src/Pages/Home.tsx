@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
 import { useEffect } from 'react';
 import { PizzaBlock } from '../components/PizzaBlock/PizzaBlock';
 import { Sort } from '../components/Sort/Sort';
@@ -7,21 +6,21 @@ import { Skeleton } from '../components/PizzaBlock/Skeleton';
 import { Categories } from '../components/Categories/Categories';
 import { Pagination } from '../components/Pagination/Pagination';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCategoryId, setCurrentPage } from '../redux/slices/filterSlice';
+import { selectFilter, setCategoryId, setCurrentPage } from '../redux/slices/filterSlice';
 import { useCallback } from 'react';
-import { fetchPizzas } from '../redux/slices/pizzaSlice';
+import { fetchPizzas, selectPizza } from '../redux/slices/pizzaSlice';
 import { Link } from 'react-router-dom';
 
-export const Home = () => {
+export const Home: React.FC = () => {
   const dispatch = useDispatch();
-  const { categoryId, sort, currentPage, searchValue } = useSelector((state) => state.filter);
-  const { items, status } = useSelector((state) => state.pizza);
+  const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
+  const { items, status } = useSelector(selectPizza);
 
-  const onChangePage = (number) => {
-    dispatch(setCurrentPage(number));
+  const onChangePage = (page: number) => {
+    dispatch(setCurrentPage(page));
   };
 
-  const onChangeCategory = useCallback((idx) => {
+  const onChangeCategory = useCallback((idx: number) => {
     dispatch(setCategoryId(idx));
   }, []);
 
@@ -32,6 +31,7 @@ export const Home = () => {
     const search = searchValue ? `search=${searchValue}` : '';
 
     dispatch(
+      //@ts-ignore
       fetchPizzas({
         sortBy,
         order,
@@ -47,7 +47,7 @@ export const Home = () => {
     getPizzas();
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
-  const pizza = items.map((pizza) => (
+  const pizza = items.map((pizza: any) => (
     <Link key={pizza.id} to={`/pizza/${pizza.id}`}>
       <PizzaBlock {...pizza} />
     </Link>

@@ -3,8 +3,12 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-export const FullPizza = () => {
-  const [pizza, setPizza] = useState({});
+export const FullPizza: React.FC = () => {
+  const [pizza, setPizza] = useState<{
+    imageUrl: string;
+    title: string;
+    price: number;
+  }>();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -23,6 +27,10 @@ export const FullPizza = () => {
     fetchPizza();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (!pizza) {
+    return <>Загрузка...</>;
+  }
 
   return (
     <div className="container">
