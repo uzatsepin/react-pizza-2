@@ -7,7 +7,7 @@ import './scss/app.scss';
 import { FullPizza } from './Pages/FullPizza';
 import { MainLayout } from './Layout/MainLayout';
 
-function App() {
+const App = () => {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
@@ -18,6 +18,6 @@ function App() {
       </Route>
     </Routes>
   );
-}
+};
 
 export default App;
