@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { CartItem } from '../components/CartItem';
-import { clearItems, selectCart } from '../redux/slices/cartSlice';
+import { clearItems } from '../redux/cart/slices';
+import { selectCart } from '../redux/cart/selectors';
 import { CartEmpty } from '../components/CartEmpty';
 
 export const Cart: React.FC = () => {
@@ -29,7 +30,8 @@ export const Cart: React.FC = () => {
               height="18"
               viewBox="0 0 18 18"
               fill="none"
-              xmlns="http://www.w3.org/2000/svg">
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
                 d="M6.33333 16.3333C7.06971 16.3333 7.66667 15.7364 7.66667 15C7.66667 14.2636 7.06971 13.6667 6.33333 13.6667C5.59695 13.6667 5 14.2636 5 15C5 15.7364 5.59695 16.3333 6.33333 16.3333Z"
                 stroke="white"
@@ -60,7 +62,8 @@ export const Cart: React.FC = () => {
               height="20"
               viewBox="0 0 20 20"
               fill="none"
-              xmlns="http://www.w3.org/2000/svg">
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
                 d="M2.5 5H4.16667H17.5"
                 stroke="#B6B6B6"
@@ -117,7 +120,8 @@ export const Cart: React.FC = () => {
                 height="14"
                 viewBox="0 0 8 14"
                 fill="none"
-                xmlns="http://www.w3.org/2000/svg">
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <path
                   d="M7 13L1 6.93015L6.86175 1"
                   stroke="#D3D3D3"

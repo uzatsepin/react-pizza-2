@@ -6,9 +6,11 @@ import { Skeleton } from '../components/PizzaBlock/Skeleton';
 import { Categories } from '../components/Categories/Categories';
 import { Pagination } from '../components/Pagination/Pagination';
 import { useSelector } from 'react-redux';
-import { selectFilter, setCategoryId, setCurrentPage } from '../redux/slices/filterSlice';
+import { setCategoryId, setCurrentPage } from '../redux/filter/slices';
+import { selectFilter } from '../redux/filter/selectors';
 import { useCallback } from 'react';
-import { fetchPizzas, selectPizza } from '../redux/slices/pizzaSlice';
+import { fetchPizzas } from '../redux/pizza/slices';
+import { selectPizza } from '../redux/pizza/selectors';
 import { useAppDispatch } from '../redux/store';
 
 export const Home: React.FC = () => {
@@ -46,9 +48,7 @@ export const Home: React.FC = () => {
     getPizzas();
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
-  const pizza = items.map((pizza: any) => ( 
-      <PizzaBlock {...pizza} />
-  ));
+  const pizza = items.map((pizza: any) => <PizzaBlock key={pizza.id} {...pizza} />);
   const skeleton = [...new Array(8)].map((_, index) => <Skeleton key={index} />);
 
   return (
