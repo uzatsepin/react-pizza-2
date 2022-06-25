@@ -1,3 +1,4 @@
+import { TCartItem } from './../redux/slices/cartSlice';
 import { useDispatch } from 'react-redux';
 import { addItem, minusItem, removeItem } from '../redux/slices/cartSlice';
 
@@ -18,7 +19,7 @@ export const CartItem:React.FC<CartItemProps> = ({ id, title, price, count, imag
     dispatch(
       addItem({
         id,
-      }),
+      } as TCartItem),
     );
   };
 
