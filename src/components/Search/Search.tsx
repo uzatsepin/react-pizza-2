@@ -2,7 +2,7 @@ import { useCallback, useRef, useState } from 'react';
 import style from './Search.module.scss';
 import debounce from 'lodash.debounce';
 import { useDispatch } from 'react-redux';
-import { setSearchValue } from '../../redux/slices/filterSlice';
+import { setSearchValue } from '../../redux/filter/slices';
 
 export const Search: React.FC = () => {
   const dispatch = useDispatch();
@@ -39,7 +39,8 @@ export const Search: React.FC = () => {
         version="1.1"
         viewBox="0 0 50 50"
         width="50px"
-        xmlns="http://www.w3.org/2000/svg">
+        xmlns="http://www.w3.org/2000/svg"
+      >
         <rect fill="none" height="50" width="50" />
         <circle
           cx="21"

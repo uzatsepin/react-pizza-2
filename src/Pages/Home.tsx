@@ -5,14 +5,16 @@ import { Sort } from '../components/Sort/Sort';
 import { Skeleton } from '../components/PizzaBlock/Skeleton';
 import { Categories } from '../components/Categories/Categories';
 import { Pagination } from '../components/Pagination/Pagination';
-import { useSelector, useDispatch } from 'react-redux';
-import { selectFilter, setCategoryId, setCurrentPage } from '../redux/slices/filterSlice';
+import { useSelector } from 'react-redux';
+import { setCategoryId, setCurrentPage } from '../redux/filter/slices';
+import { selectFilter } from '../redux/filter/selectors';
 import { useCallback } from 'react';
-import { fetchPizzas, selectPizza } from '../redux/slices/pizzaSlice';
-import { Link } from 'react-router-dom';
+import { fetchPizzas } from '../redux/pizza/slices';
+import { selectPizza } from '../redux/pizza/selectors';
+import { useAppDispatch } from '../redux/store';
 
 export const Home: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
   const { items, status } = useSelector(selectPizza);
 
@@ -31,13 +33,12 @@ export const Home: React.FC = () => {
     const search = searchValue ? `search=${searchValue}` : '';
 
     dispatch(
-      //@ts-ignore
       fetchPizzas({
         sortBy,
         order,
         category,
         search,
-        currentPage,
+        currentPage: String(currentPage),
       }),
     );
   };
@@ -47,11 +48,7 @@ export const Home: React.FC = () => {
     getPizzas();
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
-  const pizza = items.map((pizza: any) => (
-    <Link key={pizza.id} to={`/pizza/${pizza.id}`}>
-      <PizzaBlock {...pizza} />
-    </Link>
-  ));
+  const pizza = items.map((pizza: any) => <PizzaBlock key={pizza.id} {...pizza} />);
   const skeleton = [...new Array(8)].map((_, index) => <Skeleton key={index} />);
 
   return (

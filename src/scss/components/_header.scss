@@ -8,8 +8,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    @media (max-width: 645px) {
+    @media (max-width: 900px) {
       flex-direction: column;
+      gap: 20px;
     }
   }
 
@@ -17,7 +18,7 @@
     display: flex;
     @media (max-width: 645px) {
       margin-bottom: 20px;
-    } 
+    }
 
     img {
       margin-right: 15px;
